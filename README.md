@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project, conceived by Eric Brattin under the guidance of Dr. Gates for IST 736, dives into the complex and often polarized world of American immigration debate coverage in the mainstream media. Utilizing advanced machine learning (ML) and natural language processing (NLP) techniques, it aims to uncover whether the media's portrayal of immigration is skewed towards negativity and sensationalism or if it maintains a rational and informative stance.
+This project, conceived by Eric Brattin under the guidance of Dr. Ami Gates of Syracuse University, dives into the complex and often polarized world of American immigration debate coverage in the mainstream media. Utilizing advanced machine learning (ML) and natural language processing (NLP) techniques, it aims to uncover whether the media's portrayal of immigration is skewed towards negativity and sensationalism or if it maintains a rational and informative stance.
 By analyzing news articles from a wide range of media outlets, this project seeks to identify the prevailing narratives and sentiments surrounding immigration, offering insights into how these portrayals might influence public perception and policy discussions.
 
 ## Project Structure
