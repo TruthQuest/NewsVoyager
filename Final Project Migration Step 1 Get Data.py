@@ -42,36 +42,30 @@ nltk.download('vader_lexicon')
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def install_and_upgrade(package, version=None):
-    try:
-        # Attempt to import the package
-        module = __import__(package)
-        
-        # If a version is specified, check if the current version meets the requirement
+    try:   
+        module = __import__(package)     
         if version:
             import pkg_resources
             current_version = pkg_resources.get_distribution(package).version
             if pkg_resources.parse_version(current_version) < pkg_resources.parse_version(version):
                 print(f"{package} version {current_version} is installed, but version {version} or newer is required. Upgrading...")
                 subprocess.check_call([sys.executable, "-m", "pip", "install", f"{package}=={version}"])
-                # Re-import the upgraded package
+        
                 module = __import__(package)
         return module
     except ImportError as e:
-        # If the package is not found, try to install it
+    
         print(f"{package} not found. Installing {package}...")
         install_command = [sys.executable, "-m", "pip", "install", package]
-        # If a specific version is required, modify the install command accordingly
         if version:
             install_command[-1] += f"=={version}"
         
-        subprocess.check_call(install_command)
-        
+        subprocess.check_call(install_command)      
         try:
-            # Attempt to import the package again after installation
+
             module = __import__(package)
             return module
         except ImportError:
-            # Raise an ImportError if the package still cannot be imported after installation
             raise ImportError(f"Failed to import or install {package}.") from e
 
 
@@ -204,7 +198,7 @@ def download_news_stories_from_api(api_key, topics, source_identifiers=None, art
 def get_news_site_name(url):
     parsed_url = urlparse(url)
     domain = parsed_url.netloc
-   # Extract the publisher's name from the domain, assuming its right after www.
+   # Extract the publisher's name from the domain, as its right after www.
     if domain.startswith('www.'):
         domain = domain[4:]
     publisher = domain.split('.')[0]

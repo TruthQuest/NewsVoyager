@@ -59,40 +59,31 @@ def load_excel_file(file_path, file_name):
     
 
 def map_editorial_stance(data, media_dict, threshold=0.60):
- 
-    # Convert dictionary keys to a list for vectorization
+
     dict_keys = list(media_dict.keys())
     
-    # Initialize the TfidfVectorizer
     vectorizer = TfidfVectorizer(min_df=1, stop_words='english')
     
-    # Fit the vectorizer on the combined set of publisher names
     vectorizer.fit(list(data['publisher']) + dict_keys)
     
-    # Transform both dataset publisher names and dictionary keys
     data_vec = vectorizer.transform(data['publisher'])
     dict_keys_vec = vectorizer.transform(dict_keys)
     
-    # Calculate cosine similarity
     cosine_sim = cosine_similarity(data_vec, dict_keys_vec)
     
-    # Initialize an empty list to store editorial stances
     stances = []
     
     for i in range(len(data)):
         max_sim_index = cosine_sim[i].argmax()
         max_sim_value = cosine_sim[i][max_sim_index]
         
-        # Check if the highest similarity score meets the threshold
         if max_sim_value >= threshold:
             stances.append(media_dict[dict_keys[max_sim_index]])
         else:
-            # Use linear_kernel as a backup
             linear_sim = linear_kernel(data_vec[i], dict_keys_vec).flatten()
             max_linear_index = linear_sim.argmax()
             stances.append(media_dict[dict_keys[max_linear_index]])
     
-    # Assign the calculated stances to the 'editorial_stance' column
     data['editorial_stance'] = stances
     
     return data
@@ -272,35 +263,27 @@ def calculate_influence_scores(twitter_followers):
     return influence_scores
 
 def measure_media_bias_and_impact(df, twitter_followers):
-    # Calculate the influence scores
+
     influence_scores = calculate_influence_scores(twitter_followers)
     
-    # Convert influence scores to a DataFrame for a merge
     df_influence_scores = pd.DataFrame(list(influence_scores.items()), columns=['publisher', 'Influence Score'])
     
-    # Group by stance and sentiment category to count articles
     grouped = df.groupby(['publisher', 'sentiment_category_bert']).size().reset_index(name='count')
 
-    # Calculate total counts by stance
     total_counts = grouped.groupby('publisher')['count'].transform('sum')
 
-    # Calculate traditional percentages within each stance
     grouped['traditional_percentage'] = (grouped['count'] / total_counts) * 100
 
-    # Merge the influence scores into the grouped DataFrame
     grouped = grouped.merge(df_influence_scores, on='publisher', how='left')
 
-    # Apply the influence score to the traditional percentage
     grouped['weighted_percentage_with_influence'] = grouped['traditional_percentage'] * grouped['Influence Score']
 
-    # Pivot the data for a comprehensive view
     pivot_df = grouped.pivot_table(
         index='publisher', 
         columns='sentiment_category_bert', 
         values=['traditional_percentage', 'weighted_percentage_with_influence']
     ).fillna(0)
-    
-    # Rename the columns for clarity
+ 
     pivot_df.columns = ['_'.join(col).strip() for col in pivot_df.columns.values]
 
     return pivot_df
