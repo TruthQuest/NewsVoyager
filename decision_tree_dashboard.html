@@ -1,0 +1,68 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Decision Tree Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+        <style>
+        /* Center-align table headers */
+table.dataTable thead th {
+    text-align: center;
+}
+
+/* Zebra striping for table rows */
+table.dataTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect for table rows */
+table.dataTable tr:hover {
+    background-color: #ddd;
+}
+
+/* Padding for table headers and cells */
+table.dataTable th, table.dataTable td {
+    padding: 12px 15px;
+}
+
+/* Adding some color to the headers */
+table.dataTable thead th {
+    background-color: #218d8c;
+    color: white;
+}
+
+        </style>
+    </head>
+    <body>
+        <h1>Decision Tree Dashboard</h1>
+        <ul><li><a href="decision_tree_max_depth_None.html" target="_blank">Decision Tree Visualization (No Max Depth)</a></li>
+<li><a href="decision_tree_max_depth_10.html" target="_blank">Decision Tree Visualization (Max Depth 10)</a></li>
+<li><a href="decision_tree_max_depth_5.html" target="_blank">Decision Tree Visualization (Max Depth 5)</a></li>
+</ul>
+        
+<table id="treeMetricsTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Max Depth</th>
+            <th>Number of Nodes</th>
+        </tr>
+    </thead>
+    <tbody>
+<tr><td>None</td><td>49</td></tr>
+<tr><td>10</td><td>33</td></tr>
+<tr><td>5</td><td>17</td></tr>
+
+    </tbody>
+</table>
+
+        <script>
+        $(document).ready(function () {
+            $('#treeMetricsTable').DataTable();
+        });
+        </script>
+    </body>
+    </html>
+    
