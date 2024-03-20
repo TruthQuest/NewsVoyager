@@ -586,6 +586,7 @@ df_web_content_combined_all_cleaned_2 = filter_short_text_rows(df_web_content_co
 
 df_web_content_combined_all_cleaned_3 = resolve_duplicates(df_web_content_combined_all_cleaned_2)
 
+#removing crucial refugee populations in history that are not currently relevant to the US Immigration debate
 keywords = ["Israel", "Israeli", "Netanyahu", "Gaza", "Hamas", "UNRWA", 
             "Pakistan", "Rafah", 'Rohingya', 'Burma', 'Myanmar', 'Syria', "Jew",
             "Holocaust"]
